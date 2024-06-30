@@ -16,7 +16,7 @@ Para os dados e objetivo apresentados, testei diferentes tipos de modelos: árvo
 
 Isso ocorreu porque não havia uma correlação muito alta entre nenhuma das variáveis preditoras utilizadas e a variável alvo. Em casos como esse, o R² pode não ser tão informativo, pois sua relevância está relacionada à influência das variáveis preditoras na variável alvo. Portanto, é compreensível que, apesar de ter um R² menor, a rede neural tenha feito uma previsão um pouco melhor, já que apresentou um MSE menor.
 
-Entre as vantagens da rede neural estão sua flexibilidade, que permite seu uso em uma ampla variedade de tarefas, como reconhecimento de fala, processamento de imagem, além de problemas de regressão ou classificação. Além disso, a rede neural é capaz de capturar padrões complexos e não lineares entre suas variáveis de entrada e saída.
+Entre as vantagens da rede neural estão sua flexibilidade, que permite seu uso em uma ampla variedade de tarefas, como reconhecimento de fala e processamento de imagem, além de problemas de regressão ou classificação. Além disso, a rede neural é capaz de capturar padrões complexos e não lineares entre suas camadas de entrada e saída.
 
 Por outro lado, suas desvantagens incluem o risco de overfitting devido à alta capacidade de modelagem e a complexidade na escolha dos parâmetros durante sua construção.
 

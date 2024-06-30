@@ -1,5 +1,5 @@
 # Desafio Cientista de Dados
-Este README.md tem como objetivo responder às perguntas feitas no item 3 da seção "Tarefas" do arquivo "[Lighthouse] Desafio de Cientista de Dados 2024-9".
+Este README.md tem como objetivo responder às perguntas feitas no item 3 da seção "Entregas" do arquivo "[Lighthouse] Desafio de Cientista de Dados 2024-9".
 
 # Explique como você faria a previsão da nota do imdb a partir dos dados.
 Primeiramente, busco entender os dados através do meu conhecimento de mundo. Tento identificar quais variáveis presentes no dataset tendem a ter maior influência na nota do IMDb.

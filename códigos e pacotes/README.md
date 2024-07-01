@@ -1,6 +1,13 @@
 # Desafio Cientista de Dados
 Este README.md tem como objetivo responder às perguntas feitas no item 3 da seção "Entregas" do arquivo "[Lighthouse] Desafio de Cientista de Dados 2024-9".
 
+# Quais variáveis e/ou suas transformações você utilizou e por quê? 
+As variáveis/colunas excluídas do dataset para a construção do modelo de previsão da nota do IMDb foram: Series_Title, Genre, Overview, Director, Star1, Star2, Star3, Star4, além da primeira coluna, que se referia à enumeração das observações. Elas foram excluídas do dataset antes da construção do modelo porque, conforme explicado na Análise Exploratória dos Dados (EDA), todas apresentavam uma significância estatisticamente irrelevante para a variável alvo, considerando um nível de confiança de 95%.
+
+Quanto às transformações, foi realizada a dummificação na variável categórica Certificate, e para a construção da rede neural, optei por padronizar todos os valores numéricos entre 0 e 1. Por esse motivo, foi também necessário padronizar os dados do filme "The Shawshank Redemption" antes de fazer a previsão para o mesmo. A padronização dos dados do filme "The Shawshank Redemption" foi feita utilizando os mesmos valores máximos e mínimos dos dados usados na criação do modelo.
+
+Após a previsão, foi necessário despadronizar o resultado, visto que ele estava na mesma escala dos dados padronizados, para obter o valor real da nota do IMDb para o filme "The Shawshank Redemption"
+
 # Explique como você faria a previsão da nota do imdb a partir dos dados.
 Primeiramente, busco entender os dados através do meu conhecimento de mundo. Tento identificar quais variáveis presentes no dataset tendem a ter maior influência na nota do IMDb.
 

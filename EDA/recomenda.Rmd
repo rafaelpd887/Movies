@@ -1,0 +1,40 @@
+---
+title: "Qual filme você recomendaria para uma pessoa que você não conhece?"
+author: "rafael"
+date: "2024-07-01"
+output: html_document
+---
+
+# Carregando pacotes e dataset
+```{r package, message=FALSE, warning=FALSE, results='hide'}
+pacotes <- c("readr", "dplyr", "ggplot2", "PerformanceAnalytics", "tidyr" )
+lapply(pacotes, library, character.only = TRUE)
+```
+
+```{r load, message=FALSE, warning=FALSE}
+filmes <- read_csv("desafio_indicium_imdb.csv")
+filmes$Runtime <- gsub(" min", "", filmes$Runtime)
+filmes$Runtime <- as.numeric(filmes$Runtime)
+filmes$Released_Year <- as.numeric(as.character(filmes$Released_Year))
+
+```
+O ideal, ao fazermos qualquer tipo de recomendação, seria analisar os gostos e preferências da pessoa para, então, recomendarmos algo de acordo com eles. Por esse motivo, recomendar um filme para alguém que não conhecemos pode ser um grande desafio, visto que gostos e preferências podem variar muito de pessoa para pessoa.
+
+Nesse contexto, aproveitando o dataset fornecido para o desafio, é possível tentar selecionar um filme que tenha potencial para agradar a qualquer pessoa. Considerarei as variáveis IMDB_Rating, Meta_Score e No_of_Votes para selecionar um filme com esse potencial.
+
+IMDB_Rating e Meta_Score indicam se o filme é bem avaliado pelos críticos especializados, assim como pelo público em geral, e No_of_Votes indica se o filme é popular ou não.
+
+
+```{r best, message=FALSE, warning=FALSE}
+# Selecionando os filmes com as melhores combinações de IMDB_Rating, No_of_Votes e Meta_score
+filmes$score <- filmes$IMDB_Rating + filmes$Meta_score/10 + log10(filmes$No_of_Votes)
+filmes_ordenados <- filmes[order(-filmes$score), ]
+top_10_filmes <- filmes_ordenados[1:10, c("Series_Title", "score")]
+print(top_10_filmes)
+
+```
+A lista acima mostra os filmes com as melhores combinações de nota no IMDb, número de votos (em escala logarítmica para evitar grandes distorções) e a média ponderada das críticas.
+
+É razoável considerar que qualquer um dos filmes da lista acima seria uma boa recomendação para uma pessoa desconhecida. No entanto, dado que a pergunta solicita apenas uma recomendação, a escolha lógica seria o primeiro filme da lista.
+
+Portanto, minha sugestão de filme para uma pessoa que não conheço seria "The Godfather".

@@ -1,0 +1,145 @@
+---
+title: "EDA"
+author: "rafael"
+date: "2024-06-30"
+output: html_document
+---
+# Carregando pacotes e dataset
+```{r package, message=FALSE, warning=FALSE, results='hide'}
+pacotes <- c("readr", "dplyr", "ggplot2", "PerformanceAnalytics", "tidyr" )
+lapply(pacotes, library, character.only = TRUE)
+```
+
+```{r load, message=FALSE, warning=FALSE}
+filmes <- read_csv("desafio_indicium_imdb.csv")
+filmes$Runtime <- gsub(" min", "", filmes$Runtime)
+filmes$Runtime <- as.numeric(filmes$Runtime)
+filmes$Released_Year <- as.numeric(as.character(filmes$Released_Year))
+
+```
+# Olhando algumas estatísticas das variáveis
+```{r summary}
+summary(filmes)
+```
+
+Além de alguns NAs que deverão ser removidas na construção do modelo preditivo, ao analisarmos algumas das estatísticas das variáveis presentes no dataset podemos notar alguns fatos interessantes como o filme mais antigo do dataset ser do ano 1920 eum filme no dataset com duração de 321 minutos!
+
+Adicionalmente, as variáveis não apresentam variações muito grandes ou outliers muito distoantes que possam distorcer o modelo ou as análises.
+
+# Anova
+```{r anova}
+anova1 <- aov(IMDB_Rating ~ Genre, data = filmes) 
+anova2 <- aov(IMDB_Rating ~ Director, data = filmes) 
+anova3 <- aov(IMDB_Rating ~ Series_Title, data = filmes) 
+anova4 <- aov(IMDB_Rating ~ Overview, data = filmes) 
+anova5 <- aov(IMDB_Rating ~ Star1, data = filmes) 
+
+summary(anova1) 
+summary(anova2)
+summary(anova3)
+summary(anova4)
+summary(anova5)
+```
+
+Todos os valores p obtidos foram superiores a 0.05, indicando que, com um nível de confiança de 95%, nenhuma das variáveis testadas possui um efeito estatisticamente significativo sobre a variável IMDB_Rating.
+
+Em resumo, os resultados das análises de variância (ANOVA) sugerem que não há uma influência significativa das variáveis relacionadas ao título do filme, sinopse (overview), gênero, diretores e atores na variável alvo.
+
+# Analisando a correlação entre as variáveis numéricas
+
+```{r cor, warning=FALSE}
+chart.Correlation((filmes[, c(3, 5, 9, 15, 16, 7)]), histogram = TRUE)
+```
+
+A tabela de correlação nos permite visualizar como as variáveis numéricas se relacionam, facilitando nosso entendimento sobre os dados em questão.
+
+É possível notar que a variável que mais influencia a nota do IMDb é o número de votos. Isso indica que as pessoas têm maior probabilidade de se darem ao trabalho de ir até o site do IMDb e votar quando assistem a um filme que gostam.
+
+O número de votos também possui uma relação positiva com o faturamento, indicando que os filmes que geralmente possuem mais votos tendem a ser os que mais faturam. Curiosamente, o faturamento possui uma baixa correlação com as notas do IMDb. Isso sugere que os filmes que mais faturam são os que geralmente possuem um maior número de votos, ou seja, os mais populares, mas não necessariamente são os que mais agradam ao público, já que o faturamento possui uma correlação baixa com as notas.
+
+Uma outra relação interessante é o ano de lançamento em relação às notas do IMDb e à nota dos críticos (Meta Score). Podemos reparar que os filmes mais antigos eram levemente mais bem avaliados tanto pelo público quanto pelos críticos especializados. Essa relação indica que deve ter havido uma queda na qualidade dos filmes ao longo dos anos, ou pelo menos uma queda na percepção de qualidade dos filmes pelo público e pelos críticos.
+
+Podemos também ver que as notas do público e dos críticos tendem a ser apenas levemente parecidas. É interessante observar essa relação, pois inicialmente poderíamos pensar que elas teriam uma relação mais forte, visto que ambas representam avaliações feitas por pessoas que assistiram aos filmes. Assim, pela relação não muito forte entre as notas do público e dos críticos, podemos concluir que esses dois grupos possuem critérios de avaliação que devem apresentar diferenças relevantes entre si.
+
+No geral, apesar dos insights interessantes que podemos tirar da tabela de correlação das variáveis numéricas, é notável que não existe nenhuma correlação muito alta de nenhuma das variáveis com IMDB_Rating ou entre si mesmas.
+
+# Quais diretores trabalharam nos filmes de maior faturamento? 
+```{r dir}
+# Analisando diretores em relação ao faturamento
+diretor_faturamento <- filmes %>%
+  group_by(Director) %>%
+  summarise(media_faturamento = mean(Gross, na.rm = TRUE)) %>%
+  arrange(desc(media_faturamento))
+
+# Mostrando os 20 primeiros diretores com maior faturamento médio
+head(diretor_faturamento, 20)
+
+```
+
+Além dos insights extraídos das variáveis numéricas, podemos obter insights valiosos das variáveis categóricas do dataset. Como o objetivo dos estúdios é obter lucro com suas produções, e considerando que as notas têm pouca influência no faturamento, faz mais sentido analisar quais diretores trabalharam nos filmes de maior faturamento, em vez de focar nas notas. Dessa forma, o estúdio pode escolher diretores que têm um histórico de contribuir para altos retornos financeiros ao planejar novos projetos.
+
+Para agregar ainda mais valor a esta análise, vou incorporar considerações baseadas na estatística VAR (Value Above Replacement), que foi discutida no trabalho do cientista de dados Jeremy Lee. O VAR, em resumo, quantifica quantas vezes um ator/atriz ou diretor participou de filmes com lucro acima da média.
+
+[Link para o VAR dos diretores](https://github.com/jeremy-lee93/dsc-mod-1-project-v2-1-onl01-dtsc-pt-052620/blob/master/visuals/VARDirector.png) 
+<span style="font-size: smaller;">*favor clicar com o botão direito do mouse e selecionar abrir link num novo separador*</span>
+
+Observa-se que os cinco primeiros colocados no VAR estão todos incluídos na lista dos 20 diretores fornecida anteriormente, o que reforça a confiabilidade e relevância dessa lista. 
+
+# Quais atores trabalharam nos filmes de maior faturamento?  
+```{r actor}
+# Analisando atores em relação ao faturamento
+atores <- filmes %>%
+  select(Gross, Star1, Star2, Star3, Star4) %>%
+  gather(key = "posicao", value = "ator", Star1:Star4) %>%
+  group_by(ator) %>%
+  summarise(media_faturamento = mean(Gross, na.rm = TRUE)) %>%
+  arrange(desc(media_faturamento))
+
+# Mostrando os 50 primeiros atores com maior faturamento médio
+top_60_atores <- atores[1:60, ]
+
+num_rows <- ceiling(nrow(top_60_atores) / 3)  # número de linhas necessárias
+atores_matrix <- matrix(paste0(seq_along(top_60_atores$ator), ". ", top_60_atores$ator), nrow = num_rows, byrow = TRUE)
+
+print(atores_matrix)
+```
+
+Assim como foi feito com os diretores, é também necessário analisar os atores em relação ao faturamento. Dessa forma, o estúdio pode ter uma lista dos atores que estão mais associados a filmes de alto faturamento, facilitando a escolha para futuras produções.
+
+[Link para o VAR dos atores](https://github.com/jeremy-lee93/dsc-mod-1-project-v2-1-onl01-dtsc-pt-052620/blob/master/visuals/VARActor.png)
+<span style="font-size: smaller;">*favor clicar com o botão direito do mouse e selecionar abrir link num novo separador*</span>
+
+Chris Hemsworth, Robert Downey Jr., Elijah Wood e Zoe Saldana são alguns dos atores bem posicionados na lista do VAR e também aparecem na lista acima. Assim como com os diretores, esse fato adiciona confiabilidade à EDA feita aqui, pois demonstra que resultados similares foram encontrados por outros cientistas usando diferentes conjuntos de dados.
+
+# Quais gêneros de filmes obtiveram o maior faturamento?
+```{r genre}
+# Agrupar por diretor e calcular a média do faturamento
+genero_faturamento <- filmes %>%
+  group_by(Genre) %>%
+  summarise(media_faturamento = mean(Gross, na.rm = TRUE)) %>%
+  arrange(desc(media_faturamento))
+
+# Mostrando os 20 primeiros gêneros com maior faturamento médio
+head(genero_faturamento, 20)
+
+```
+Por fim, é importante analisar quais gêneros tendem a ser mais rentáveis. Nota-se que os filmes de ação e aventura estão entre os mais lucrativos. Portanto é interessante que o estúdio, caso priorize o faturamento, considere esses generos ao criar um novo filme.
+
+# Como deveria ser o próximo filme do estúdio visando principalmente o faturamento?
+
+Através desta breve EDA, é possível fornecer um direcionamento valioso ao estúdio para o planejamento de seus próximos filmes. 
+
+Podemos até propor um "plano de ação" para o próximo projeto do estúdio! Considerando um novo filme com foco principal no faturamento, um bom escopo para o próximo projeto do estúdio, baseado nos dados explorados aqui, assim como na estatística VAR, seria:
+
+<span style="color: blue;">Gênero:</span> Um filme família de Ação e Aventura em um contexto Sci-fi
+
+<span style="color: blue;">Diretor:</span> Anthony Russo
+
+<span style="color: blue;">Atores Principais:</span> Chris Hemsworth, Robert Downey Jr., Elijah Wood, Zoe Saldana e Anne Hathaway.
+
+<span style="color: blue;">Overview:</span> In a distant future, a group of unlikely adventurers set off on a thrilling quest of action and adventure to rescue their home planet.
+
+um episodio q comprova o poder da analise de dados para decisoes de negocio eh o fato de que a 4 maior bilheteria de 2023 pertece ao filme Guardioes da Galaxia 3, um filme muito parecido em escopo e com atore e diretor com  estilos parecido cos os do filme ficticio sugerido acima a partir da analise do dataset fornecido. inclusive, zoe saldana que foi sugerida como uma das atrizes no filme ficticio acima eh uma das estrelas que atuaram em Guardioes da Galaxia 3!
+
+rank das maiores bilheterias de 2023 https://www.cnnbrasil.com.br/entretenimento/veja-as-maiores-bilheterias-de-2023/
+

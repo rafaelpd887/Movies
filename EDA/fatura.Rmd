@@ -1,0 +1,52 @@
+---
+title: Quais são os principais fatores que estão relacionados com alta expectativa
+  de faturamento de um filme?
+author: "rafael"
+date: "2024-07-01"
+output: html_document
+---
+# Carregando pacotes e dataset
+```{r package, message=FALSE, warning=FALSE, results='hide'}
+pacotes <- c("readr", "dplyr", "ggplot2", "PerformanceAnalytics", "tidyr" )
+lapply(pacotes, library, character.only = TRUE)
+```
+
+```{r load, message=FALSE, warning=FALSE}
+filmes <- read_csv("desafio_indicium_imdb.csv")
+filmes$Runtime <- gsub(" min", "", filmes$Runtime)
+filmes$Runtime <- as.numeric(filmes$Runtime)
+filmes$Released_Year <- as.numeric(as.character(filmes$Released_Year))
+
+```
+Pelas analises feitas durante a EDA ja é possivel de se ter uma ideia a respeito de quais fatores mais influenciam no alto faturamento de um filme. Entretando é possivel realizar algumas analises extras focadas no faturamento.
+
+
+```{r best, message=FALSE, warning=FALSE}
+chart.Correlation((filmes[, c(3, 5, 7, 9, 15, 16)]), histogram = TRUE)
+
+```
+A partir da tabela de correlação, podemos inferir que apenas o número de votos possui uma influência significativa no faturamento do filme. Isso indica que filmes populares, que tendem a receber um grande número de votos, são os que mais faturam, independentemente de suas avaliações.
+
+Portanto, um estúdio que visa alto faturamento para seu filme precisa garantir que ele seja amplamente conhecido e popular. Investir em marketing é essencial para alcançar esse objetivo, garantindo uma ampla divulgação que desperte curiosidade e interesse entre o público. Essa divulgação eficaz não só aumentará a visibilidade do filme, mas também incentivará as pessoas a pagarem para assisti-lo, impulsionando assim o seu faturamento.
+
+Além do marketing, não podemos ignorar o fato de que alguns diretores e atores têm o poder de atrair mais público para seus filmes. Coincidentemente, explorei essa relação entre atores e faturamento durante a etapa de EDA, visto que o desafio visa auxiliar um estúdio em um projeto com alto investimento financeiro.
+
+Durante a EDA, investiguei quais atores, diretores e gêneros são frequentemente encontrados em filmes de alto faturamento. No entanto, não busquei confirmar se esses elementos realmente influenciam o faturamento. 
+
+Assim sendo, utilizarei agora a análise de variância para validar se atores, diretores e gênero realmente possuem impacto significativo no faturamento.
+
+```{r anova}
+anova1 <- aov(Gross ~ Genre, data = filmes) 
+anova2 <- aov(Gross ~ Director, data = filmes) 
+anova3 <- aov(Gross ~ Star1, data = filmes) 
+
+summary(anova1) 
+summary(anova2)
+summary(anova3)
+```
+Considerando um nível de confiança de 95%, todas as variáveis analisadas mostraram-se estatisticamente significativas para o faturamento do filme, com valores de p inferiores a 0.05.
+
+Com base nesses dados, conclui-se que os fatores mais importantes para o alto faturamento de um filme são o investimento em marketing para aumentar sua popularidade, além da escolha estratégica de atores, diretores e do gênero do filme.
+
+Isso não significa que outros fatores, como a qualidade intrínseca do filme ou a percepção de qualidade pelo público, não sejam influentes para o faturamento. Significa apenas que, com base nos dados analisados, a popularidade e a composição de atores, diretores e gênero do filme são os principais impulsionadores do faturamento.
+

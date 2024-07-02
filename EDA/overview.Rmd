@@ -1,0 +1,148 @@
+---
+title: Quais insights podem ser tirados com a coluna Overview? É possível inferir
+  o gênero do filme a partir dessa coluna?
+author: "rafael"
+date: "2024-07-01"
+output: html_document
+---
+
+# Carregando pacotes e dataset
+```{r package, message=FALSE, warning=FALSE, results='hide'}
+pacotes <- c("readr", "dplyr", "ggplot2", "PerformanceAnalytics", "tidyr", "tm", "caret", "stringr", "tidytext" )
+lapply(pacotes, library, character.only = TRUE)
+```
+
+```{r load, message=FALSE, warning=FALSE}
+filmes <- read_csv("desafio_indicium_imdb.csv")
+filmes$Runtime <- gsub(" min", "", filmes$Runtime)
+filmes$Runtime <- as.numeric(filmes$Runtime)
+filmes$Released_Year <- as.numeric(as.character(filmes$Released_Year))
+
+```
+A coluna "Overview" pode fornecer vários insights sobre os filmes. Por exemplo, é possível obter uma ideia sobre o tom emocional do filme, identificando se é mais positivo, neutro ou negativo. Também é possível identificar os temas abordados no filme, permitindo uma compreensão mais clara do panorama geral do filme quando analisamos a coluna "Overview" junto ao gênero do filme.
+
+Além disso, é definitivamente possível identificar o gênero do filme através da coluna "Overview". Não só é possível fazer essa identificação, como também podemos utilizar algoritmos de machine learning e processamento de linguagem para automatizar essa identificação. Esses algoritmos podem ser usados não apenas para identificar o gênero, mas também para determinar o tom emocional do filme, assim como seus temas e tópicos.
+
+Vou exemplificar essas possibilidades através de um código simples em R. Primeiramente, vamos selecionar as palavras mais comuns presentes na coluna "Overview".
+
+# Olhando as palavras mais comuns da coluna "Overview"
+```{r words, message=FALSE, warning=FALSE}
+# "Limpando" o texto da variável "Overview"
+overview_texto <- filmes$Overview
+texto_limpo <- tolower(overview_texto)  # Transformando em minúsculas
+texto_limpo <- str_replace_all(texto_limpo, "[^[:alnum:][:space:]]", "")  # Removendo pontuações e números
+
+# Tokenizando e removendo stop words
+tokens <- unnest_tokens(tibble(text = texto_limpo), word, text) %>%
+  anti_join(stop_words, by = "word")  # Remover stop words
+
+# Mostrando frequência das palavras
+frequencia_palavras <- tokens %>%
+  count(word, sort = TRUE)
+
+head(frequencia_palavras, 10)
+```
+
+Através do código acima, é possível ver quais palavras mais se repetem na coluna "Overview". Agora, vou mostrar quais são os gêneros de filme mais comuns para as palavras que mais se repetem na coluna "Overview".
+
+# Olhando as gêneros mais comuns para as palavras mais comuns da coluna "Overview"
+```{r genres, message=FALSE, warning=FALSE}
+# Limpando e tokenizando os textos
+textolimpo <- filmes %>%
+  mutate(Overview = tolower(Overview)) %>%
+  mutate(Overview = str_replace_all(Overview, "[^[:alnum:][:space:]]", "")) %>%
+  unnest_tokens(word, Overview) %>%
+  anti_join(stop_words, by = "word")
+
+# Contando a frequência das palavras
+frequencia_palavras <- textolimpo %>%
+  count(word, sort = TRUE) %>%
+  slice(1:10)
+
+# Identificando o gênero mais comum para cada uma das palavras mais frequentes
+frequencia_genero_palavras <- textolimpo %>%
+  filter(word %in% frequencia_palavras$word) %>%
+  group_by(word, Genre) %>%
+  count(sort = TRUE)
+
+genero_mais_comum_por_palavra <- frequencia_genero_palavras %>%
+  group_by(word) %>%
+  slice_max(order_by = n, n = 1)
+
+# Mostrando os resultados
+print(genero_mais_comum_por_palavra)
+```
+
+Agora, usando o escopo dos códigos acima, é possível criar um algoritmo que retorna um gênero em potencial para um determinado overview.
+
+Em resumo, esse algoritmo busca no overview por uma das palavras que foram identificadas como mais comuns. Em seguida, ele escolhe um gênero de acordo com o gênero mais comum para a(s) palavra(s) encontrada(s) no overview.
+
+# Algoritmo para identificar o gênero através do Overview
+```{r app, message=FALSE, warning=FALSE}
+# Limpando e tokenizar os textos, mantendo a coluna Genre
+texto_limpo <- filmes %>%
+  mutate(Overview = tolower(Overview)) %>%
+  mutate(Overview = str_replace_all(Overview, "[^[:alnum:][:space:]]", "")) %>%
+  unnest_tokens(word, Overview) %>%
+  anti_join(stop_words, by = "word")
+
+# Contando a frequência das palavras
+frequencia_palavras <- texto_limpo %>%
+  count(word, sort = TRUE) %>%
+  slice(1:100)
+
+# Identificando o gênero mais comum para cada uma das 10 palavras mais frequentes
+frequencia_genero_palavras <- texto_limpo %>%
+  filter(word %in% frequencia_palavras$word) %>%
+  group_by(word, Genre) %>%
+  count(sort = TRUE)
+
+# Para cada palavra, encontrando o gênero mais comum
+genero_mais_comum_por_palavra <- frequencia_genero_palavras %>%
+  group_by(word) %>%
+  slice_max(order_by = n, n = 1) %>%
+  ungroup() %>%
+  select(word, Genre)
+
+# Função para prever o gênero com base em um novo "Overview"
+prever_genero <- function(novo_overview, genero_mais_comum_por_palavra) {
+  # Limpar e tokenizar o novo overview
+  novo_overview <- tolower(novo_overview)
+  novo_overview <- str_replace_all(novo_overview, "[^[:alnum:][:space:]]", "")
+  
+  novos_tokens <- tibble(texto = novo_overview) %>%
+    unnest_tokens(word, texto) %>%
+    anti_join(stop_words, by = "word")
+  
+  # Verificando quais palavras estão na lista das palavras mais frequentes
+  generos_correspondentes <- novos_tokens %>%
+    inner_join(genero_mais_comum_por_palavra, by = "word") %>%
+    count(Genre, sort = TRUE)
+  
+  # Retornando o gênero mais comum encontrado
+  if (nrow(generos_correspondentes) == 0) {
+    return("Gênero não encontrado")
+  } else {
+    return(generos_correspondentes$Genre[1])
+  }
+}
+```
+
+
+# Testando a função com o Overview do filme "The Godfather"
+```{r test1, message=FALSE, warning=FALSE}
+overview <- "An organized crime dynasty's aging patriarch transfers control of his clandestine empire to his reluctant son."
+prever_genero(overview, genero_mais_comum_por_palavra)
+```
+
+# Testando a função com o Overview do fictício que foi sugerido no final da EDA
+```{r test2, message=FALSE, warning=FALSE}
+overview2 <- "In a distant future, a group of unlikely adventurers set off on a thrilling quest of action and adventure to rescue their home planet."
+prever_genero(overview2, genero_mais_comum_por_palavra)
+```
+
+Repare que, usando as 100 palavras mais comuns da coluna "Overview", o algoritmo foi capaz de identificar com uma precisão relativamente boa o gênero do filme "The Godfather". E, mais que isso, ele também foi capaz de identificar relativamente bem o gênero do filme fictício que foi sugerido na etapa de EDA!
+
+Apesar de ser apenas um simples exemplo, esse algoritmo demonstra como é possível automatizar a tarefa de identificar o gênero do filme através do "Overview". Vale ressaltar que esse algoritmo poderia ser incrementado com novas observações para torná-lo ainda mais preciso e que também existem vários outros tipos de algoritmos para realizar esse tipo de tarefa.
+
+Portanto, sim, é possível obter insights da coluna "Overview", como o tom do filme, seus temas e seu gênero. Além disso, é possível automatizar essa tarefa através de algoritmos computacionais específicos para esse propósito!

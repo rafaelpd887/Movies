@@ -1,4 +1,4 @@
-# LINKS
+# Links
 
 [EDA](https://rpubs.com/rafaelpd/1200918)
 

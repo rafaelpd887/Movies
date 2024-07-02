@@ -14,7 +14,7 @@ Este diretório contém arquivos relacionados ao desafio Lighthouse da Indicium.
 
 # Como instalar e executar o projeto?
 
-O projeto foi feito utilizando a linguagem R através do IDE "RStudio". Portanto, para executar os códigos disponíveis neste repositório, recomendo que o faça em um computador com R e RStudio instalados. Ambos estão disponíveis neste link.
+O projeto foi feito utilizando a linguagem R através do IDE "RStudio". Portanto, para executar os códigos disponíveis neste repositório, recomendo que o faça em um computador com R e RStudio instalados. Ambos estão disponíveis neste [link](https://posit.co/download/rstudio-desktop/).
 
 Com o R e o RStudio instalados, basta abrir e executar os arquivos "pacotes.R", "preparação.R" e "rede_neural.R" através do RStudio. O arquivo "pacotes.R" instala os pacotes necessários, "preparação.R" prepara os dados para serem usados no modelo e cria uma função para avaliá-lo, e "rede_neural.R" cria o modelo. É possível usar "Ctrl+A" para selecionar todo o código e "Ctrl+Enter" para executar todas as linhas em sequência.
 

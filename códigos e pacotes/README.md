@@ -32,23 +32,22 @@ Como mencionado anteriormente, neste caso, a medida de desempenho principal esco
 
 Essa decisão se mostrou acertada, pois o modelo selecionado para fazer a previsão final (rede neural), apesar de ter apresentado um R² menor em comparação com os outros modelos avaliados (floresta aleatória e árvore com gradiente boost), conseguiu fazer previsões mais precisas e apresentou um MSE menor em relação aos demais.
 
-# Supondo um filme com as seguintes características:
+# Supondo um filme com as seguintes características: 
+# Qual seria a nota do IMDB?
 
-#{'Series_Title': 'The Shawshank Redemption',
-# 'Released_Year': '1994',
-# 'Certificate': 'A',
-# 'Runtime': '142 min',
-# 'Genre': 'Drama',
-# 'Overview': 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.',
-# 'Meta_score': 80.0,
-# 'Director': 'Frank Darabont',
-# 'Star1': 'Tim Robbins',
-# 'Star2': 'Morgan Freeman',
-# 'Star3': 'Bob Gunton',
-# 'Star4': 'William Sadler',
-# 'No_of_Votes': 2343110,
-# 'Gross': '28,341,469'}
+{'Series_Title': 'The Shawshank Redemption',
+ 'Released_Year': '1994',
+ 'Certificate': 'A',
+ 'Runtime': '142 min',
+ 'Genre': 'Drama',
+ 'Overview': 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.',
+ 'Meta_score': 80.0,
+ 'Director': 'Frank Darabont',
+ 'Star1': 'Tim Robbins',
+ 'Star2': 'Morgan Freeman',
+ 'Star3': 'Bob Gunton',
+ 'Star4': 'William Sadler',
+ 'No_of_Votes': 2343110,
+ 'Gross': '28,341,469'}
 
-
-#Qual seria a nota do IMDB?
-
+ 9.322007

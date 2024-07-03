@@ -139,7 +139,8 @@ Podemos até propor um "plano de ação" para o próximo projeto do estúdio! Co
 
 <span style="color: blue;">Overview:</span> In a distant future, a group of unlikely adventurers set off on a thrilling quest of action and adventure to rescue their home planet.
 
-um episodio q comprova o poder da analise de dados para decisoes de negocio eh o fato de que a 4 maior bilheteria de 2023 pertece ao filme Guardioes da Galaxia 3, um filme muito parecido em escopo e com atore e diretor com  estilos parecido cos os do filme ficticio sugerido acima a partir da analise do dataset fornecido. inclusive, zoe saldana que foi sugerida como uma das atrizes no filme ficticio acima eh uma das estrelas que atuaram em Guardioes da Galaxia 3!
+Um exemplo que comprova o poder da análise de dados para decisões de negócio é o fato de que a 4ª maior bilheteria de 2023 pertence a um filme muito semelhante em escopo e contexto ao filme sugerido aqui.
 
-rank das maiores bilheterias de 2023 https://www.cnnbrasil.com.br/entretenimento/veja-as-maiores-bilheterias-de-2023/
+Guardiões da Galáxia Vol. 3 foi a 4ª maior bilheteria de 2023 e, além de ser parecido em escopo e contexto com o filme aqui sugerido, também conta com um diretor e atores cujos estilos são semelhantes aos dos profissionais sugeridos para o filme em questão. Inclusive, uma das estrelas de Guardiões da Galáxia Vol. 3 é a própria Zoe Saldana!
 
+[Maiores bilheterias de 2023](https://www.cnnbrasil.com.br/entretenimento/veja-as-maiores-bilheterias-de-2023/) <span style="font-size: smaller;">*favor clicar com o botão direito do mouse e selecionar abrir link num novo separador*</span>

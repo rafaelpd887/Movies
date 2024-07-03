@@ -22,7 +22,7 @@ filmes$Released_Year <- as.numeric(as.character(filmes$Released_Year))
 summary(filmes)
 ```
 
-Além de alguns NAs que deverão ser removidas na construção do modelo preditivo, ao analisarmos algumas das estatísticas das variáveis presentes no dataset podemos notar alguns fatos interessantes como o filme mais antigo do dataset ser do ano 1920 eum filme no dataset com duração de 321 minutos!
+Além de alguns NAs que deverão ser removidas na construção do modelo preditivo, ao analisarmos algumas das estatísticas das variáveis presentes no dataset podemos notar alguns fatos interessantes como o filme mais antigo do dataset ser do ano 1920 e um filme no dataset com duração de 321 minutos!
 
 Adicionalmente, as variáveis não apresentam variações muito grandes ou outliers muito distoantes que possam distorcer o modelo ou as análises.
 

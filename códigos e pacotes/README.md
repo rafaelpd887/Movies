@@ -31,3 +31,24 @@ Por outro lado, suas desvantagens incluem o risco de overfitting devido à alta 
 Como mencionado anteriormente, neste caso, a medida de desempenho principal escolhida foi o MSE (Erro Quadrático Médio). Inicialmente, eu havia considerado usar o R² (coeficiente de determinação), mas ao perceber que a correlação entre as variáveis preditoras e a variável alvo não era muito alta, optei pelo MSE como uma métrica de desempenho mais relevante para este cenário.
 
 Essa decisão se mostrou acertada, pois o modelo selecionado para fazer a previsão final (rede neural), apesar de ter apresentado um R² menor em comparação com os outros modelos avaliados (floresta aleatória e árvore com gradiente boost), conseguiu fazer previsões mais precisas e apresentou um MSE menor em relação aos demais.
+
+# Supondo um filme com as seguintes características:
+
+#{'Series_Title': 'The Shawshank Redemption',
+# 'Released_Year': '1994',
+# 'Certificate': 'A',
+# 'Runtime': '142 min',
+# 'Genre': 'Drama',
+# 'Overview': 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.',
+# 'Meta_score': 80.0,
+# 'Director': 'Frank Darabont',
+# 'Star1': 'Tim Robbins',
+# 'Star2': 'Morgan Freeman',
+# 'Star3': 'Bob Gunton',
+# 'Star4': 'William Sadler',
+# 'No_of_Votes': 2343110,
+# 'Gross': '28,341,469'}
+
+
+#Qual seria a nota do IMDB?
+

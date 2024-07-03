@@ -6,7 +6,11 @@ packages <- c(
   "ggplot2",              # funções para plotagem de gráficos
   "car",                  # funções para análise estatística
   "caret",                # xgbtree entre outras funções
-  "readr"                 # permite salvar arquivos "csv"
+  "readr",                # permite ler arquivos "csv"
+  "rpart",                # árvores de decisão com RPart
+  "rpart.plot",           # plotagem de árvores de decisão
+  "randomForest",         # florestas aleatórias
+  "xgboost"               # algoritmo de boosting
 )
 
 # Verificando e instalando pacotes ausentes

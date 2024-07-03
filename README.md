@@ -18,3 +18,5 @@ O projeto foi feito utilizando a linguagem R através do IDE "RStudio". Portanto
 
 Com o R e o RStudio instalados, basta abrir e executar os arquivos "pacotes.R", "preparação.R" e "rede_neural.R" em sequência através do RStudio. O arquivo "pacotes.R" instala os pacotes necessários, "preparação.R" prepara os dados para serem usados no modelo e cria uma função para avaliá-lo, e "rede_neural.R" cria o modelo. É possível usar "Ctrl+A" para selecionar todo o código e "Ctrl+Enter" para executar todas as linhas em sequência.
 
+O modelo usado para fazer a previsão também pode ser encontrado em "códigos e pacotes" no objeto "rede_neural.RData". Para carregá-lo no RStudio, basta usar load("rede_neural.RData"). No entanto, para fazer previsões utilizando este modelo, é necessário tratar os dados conforme o script "rede_neural.R" e padronizá-los conforme o script "padronizacao.R". Além disso, as previsões ainda precisam ser despadronizadas tabém conforme o script "rede_neural.R".
+

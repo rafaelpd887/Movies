@@ -1,22 +1,19 @@
-# Desafio Lighthouse - Cientista de Dados
+# Movie data analysis
 
-Este diretório contém arquivos relacionados ao desafio Lighthouse da Indicium.
+This directory contains files related to the analysis of an IMDB movie dataset.
 
-- Os arquivos de requisitos com todos os pacotes utilizados podem ser encontrados em "códigos e pacotes" no script "pacotes.R".
+- The requirements files with all the packages used can be found in "codes and packages" in the script "packages.R".
+- EDA and related questions can be found in "EDA".
+- Modeling codes can be found in "codes and packages" in the script "neural_network.R".
+- Codes related to data processing and the function for evaluating the models can be found in "codes and packages" in the script "preparation.R".
+- Codes for other models that were tested can be found in "codes and packages/other_models".
 
-- EDA e perguntas relacionadas podem ser encontradas em "EDA".
+## How to Install and Run the Project
 
-- Os códigos de modelagem podem ser encontrados em "códigos e pacotes" no script "rede_neural.R".
+The project was created using the R language through the IDE "RStudio". Therefore, to run the codes available in this repository, I recommend doing so on a computer with R and RStudio installed. Both can be downloaded from this [link](https://posit.co/download/rstudio-desktop/).
 
-- Códigos referentes à etapa de processamento dos dados e à função para avaliar os modelos podem ser encontrados em "códigos e pacotes" no script "preparação.R".
-  
-- Os códigos dos outros modelos que foram testados podem ser encontrados em "códigos e pacotes/outros modelos".
+With R and RStudio installed, simply open and execute the files "packages.R", "preparation.R", and "neural_network.R" in sequence through RStudio. The "packages.R" file installs the necessary packages, "preparation.R" prepares the data for use in the model and creates a function to evaluate it, and "neural_network.R" creates the model. You can use "Ctrl+A" to select all the code and "Ctrl+Enter" to run all lines in sequence.
 
-# Como instalar e executar o projeto?
+The model used for making predictions can also be found in "codes and packages" in the object "neural_network.RData". To load it in RStudio, use `load("neural_network.RData")`. However, to make predictions using this model, you need to process the data according to the "neural_network.R" script and standardize it according to the "standardization.R" script. Additionally, predictions need to be unstandardized according to the "neural_network.R" script.
 
-O projeto foi feito utilizando a linguagem R através do IDE "RStudio". Portanto, para executar os códigos disponíveis neste repositório, recomendo que o faça em um computador com R e RStudio instalados. Ambos estão disponíveis neste [link](https://posit.co/download/rstudio-desktop/).
-
-Com o R e o RStudio instalados, basta abrir e executar os arquivos "pacotes.R", "preparação.R" e "rede_neural.R" em sequência através do RStudio. O arquivo "pacotes.R" instala os pacotes necessários, "preparação.R" prepara os dados para serem usados no modelo e cria uma função para avaliá-lo, e "rede_neural.R" cria o modelo. É possível usar "Ctrl+A" para selecionar todo o código e "Ctrl+Enter" para executar todas as linhas em sequência.
-
-O modelo usado para fazer a previsão também pode ser encontrado em "códigos e pacotes" no objeto "rede_neural.RData". Para carregá-lo no RStudio, basta usar load("rede_neural.RData"). No entanto, para fazer previsões utilizando este modelo, é necessário tratar os dados conforme o script "rede_neural.R" e padronizá-los conforme o script "padronizacao.R". Além disso, as previsões ainda precisam ser despadronizadas tabém conforme o script "rede_neural.R".
 

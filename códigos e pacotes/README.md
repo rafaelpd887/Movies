@@ -1,36 +1,44 @@
-# Desafio Cientista de Dados
-Este README.md tem como objetivo responder às perguntas feitas no item 3 da seção "Entregas" do arquivo "[Lighthouse] Desafio de Cientista de Dados 2024-9".
+# About
 
-# Quais variáveis e/ou suas transformações você utilizou e por quê? 
-As variáveis/colunas excluídas do dataset para a construção do modelo de previsão da nota do IMDb foram: Series_Title, Genre, Overview, Director, Star1, Star2, Star3, Star4, além da primeira coluna, que se referia à enumeração das observações. Elas foram excluídas do dataset antes da construção do modelo porque, conforme explicado na Análise Exploratória dos Dados (EDA), todas apresentavam uma significância estatisticamente irrelevante para a variável alvo, considerando um nível de confiança de 95%.
+This README.md aims to give details about this project.
 
-Quanto às transformações, foi realizada a dummificação na variável categórica Certificate, e para a construção da rede neural, optei por padronizar todos os valores numéricos entre 0 e 1. Por esse motivo, foi também necessário padronizar os dados do filme "The Shawshank Redemption" antes de fazer a previsão para o mesmo. A padronização dos dados do filme "The Shawshank Redemption" foi feita utilizando os mesmos valores máximos e mínimos dos dados usados na criação do modelo.
+## What variables and/or transformations where used and why?
 
-Após a previsão, foi necessário despadronizar o resultado, visto que ele estava na mesma escala dos dados padronizados, para obter o valor real da nota do IMDb para o filme "The Shawshank Redemption"
+The variables/columns excluded from the dataset for building the IMDb rating prediction model were: Series_Title, Genre, Overview, Director, Star1, Star2, Star3, Star4, as well as the first column, which referred to the enumeration of observations. They were excluded from the dataset before building the model because, as explained in the Exploratory Data Analysis (EDA), they all showed statistically insignificant significance for the target variable, considering a 95% confidence level.
 
-# Explique como você faria a previsão da nota do imdb a partir dos dados.
-Primeiramente, busco entender os dados através do meu conhecimento de mundo. Tento identificar quais variáveis presentes no dataset tendem a ter maior influência na nota do IMDb.
+As for transformations, dummy encoding was applied to the categorical variable Certificate, and for building the neural network, I chose to normalize all numerical values between 0 and 1. Therefore, it was also necessary to standardize the data for the movie "The Shawshank Redemption" before making predictions for it. The standardization of "The Shawshank Redemption" data was done using the same maximum and minimum values from the data used in the model creation.
 
-Após isso, começo a preparar os dados para a criação de um modelo preditivo. Removo colunas que considero desnecessárias ou que possam adicionar complexidade desnecessária ao modelo e corrijo qualquer tipo de erro que possa haver nos dados, como valores ausentes ou tipificação equivocada de variáveis, etc.
+After prediction, it was necessary to unstandardize the result, as it was on the same scale as the standardized data, to obtain the actual IMDb rating for "The Shawshank Redemption."
 
-Em seguida, testo diferentes algoritmos que considero adequados aos dados e ao objetivo preditivo. Avalio os modelos de acordo com as métricas que julgo mais relevantes para o problema em questão, e escolho como definitivo o modelo que apresentar as melhores métricas.
+## How a Prediction for the IMDb Rating Could Be Made?
 
-# Qual tipo de problema estamos resolvendo (regressão, classificação)?
-Regressão.
+First, I sought to understand the data using my domain knowledge. I aimed to identify which variables in the dataset are likely to have the most influence on the IMDb rating.
 
-# Qual modelo melhor se aproxima dos dados e quais seus prós e contras? 
-Para os dados e objetivo apresentados, testei diferentes tipos de modelos: árvore de decisão, floresta aleatória, árvore com gradiente boost e rede neural. Dentre os meus testes, obtive uma previsão levemente superior com a rede neural em comparação com a floresta aleatória e a árvore com gradiente boost. Apesar da floresta aleatória e da árvore com gradiente boost terem apresentado um R² um pouco superior ao da rede neural, a rede neural apresentava um MSE (Erro Quadrático Médio) menor, o que provavelmente fez com que a previsão para o filme "The Shawshank Redemption" fosse mais precisa.
+Next, I prepared the data for creating a predictive model. I removed columns that I considered unnecessary or that might add undue complexity to the model, and I corrected any errors in the data, such as missing values or incorrect variable typing.
 
-Isso ocorreu porque não havia uma correlação muito alta entre nenhuma das variáveis preditoras utilizadas e a variável alvo. Em casos como esse, o R² pode não ser tão informativo, pois sua relevância está relacionada à influência das variáveis preditoras na variável alvo. Portanto, é compreensível que, apesar de ter um R² menor, a rede neural tenha feito uma previsão um pouco melhor, já que apresentou um MSE menor.
+Then, I tested various algorithms that I deemed suitable for the data and the predictive goal. I evaluated the models based on metrics that I found most relevant to the problem at hand, and I selected the model that exhibited the best metrics as the final one.
 
-Entre as vantagens da rede neural estão sua flexibilidade, que permite seu uso em uma ampla variedade de tarefas, como reconhecimento de fala e processamento de imagem, além de problemas de regressão ou classificação. Além disso, a rede neural é capaz de capturar padrões complexos e não lineares entre suas camadas de entrada e saída.
 
-Por outro lado, suas desvantagens incluem o risco de overfitting devido à alta capacidade de modelagem e a complexidade na escolha dos parâmetros durante sua construção.
+## What type of problem is this?
 
-# Qual medida de performance do modelo foi escolhida e por quê?
-Como mencionado anteriormente, neste caso, a medida de desempenho principal escolhida foi o MSE (Erro Quadrático Médio). Inicialmente, eu havia considerado usar o R² (coeficiente de determinação), mas ao perceber que a correlação entre as variáveis preditoras e a variável alvo não era muito alta, optei pelo MSE como uma métrica de desempenho mais relevante para este cenário.
+Regression.
 
-Essa decisão se mostrou acertada, pois o modelo selecionado para fazer a previsão final (rede neural), apesar de ter apresentado um R² menor em comparação com os outros modelos avaliados (floresta aleatória e árvore com gradiente boost), conseguiu fazer previsões mais precisas e apresentou um MSE menor em relação aos demais.
+## Which model best fits the data and what are its pros and cons?
 
-# Qual seria a nota do IMDB para "The Shawshank Redemption"?
+For the data and goal presented, I tested different types of models: decision tree, random forest, gradient boosting tree, and neural network. Among my tests, I obtained a slightly superior prediction with the neural network compared to the random forest and gradient boosting tree. Although the random forest and gradient boosting tree had a slightly higher R² than the neural network, the neural network had a lower MSE (Mean Squared Error), which likely made the prediction for the movie "The Shawshank Redemption" more accurate.
+
+This happened because there was not a very high correlation between any of the predictor variables used and the target variable. In such cases, R² may not be very informative as its relevance is related to the influence of the predictor variables on the target variable. Therefore, it is understandable that, despite having a lower R², the neural network made a slightly better prediction as it had a lower MSE.
+
+Advantages of the neural network include its flexibility, which allows it to be used in a wide range of tasks such as speech recognition and image processing, as well as regression or classification problems. Additionally, the neural network is capable of capturing complex and nonlinear patterns between its input and output layers.
+
+On the other hand, its disadvantages include the risk of overfitting due to its high modeling capacity and the complexity in choosing parameters during its construction.
+
+## What performance measure was chosen and why?
+
+As mentioned earlier, in this case, the main performance measure chosen was the MSE (Mean Squared Error). Initially, I had considered using R² (coefficient of determination), but upon realizing that the correlation between the predictor variables and the target variable was not very high, I opted for MSE as a more relevant performance metric for this scenario.
+
+This decision proved to be correct, as the model selected for the final prediction (neural network), despite having a lower R² compared to other models evaluated (random forest and gradient boosting tree), managed to make more accurate predictions and had a lower MSE compared to the others.
+
+## What would be the predicted IMDb rating for "The Shawshank Redemption"?
+
 9.284687

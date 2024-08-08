@@ -1,6 +1,6 @@
 # Links
 
-[EDA](https://rpubs.com/rafaelpd/1200918)
+[Initial Analysis](https://rpubs.com/rafaelpd/1200918)
 <!--
 [What movie would you recommend to a person you don't know?](https://rpubs.com/rafaelpd/1201122)
 
